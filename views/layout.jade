@@ -1,7 +1,14 @@
 doctype 5
 html
   head
+    //if lt IE9
+      script(src='http://html5shim.googlecode.com/svn/trunk/html5.js')
+
     title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='/css/style.css')
   body
-    block content
+    .container-fluid
+      .row
+        .span2
+        .span10
+          block content
