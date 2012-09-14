@@ -13,7 +13,7 @@ run: app.js routes less
 routes: routes/*.coffee
 	coffee -c $?
 
-less: ./public/less/
+less: ./public/less/*.less ./public/less/bootstrap
 	./node_modules/.bin/lessc -x public/less/style.less public/css/style.css
 
 

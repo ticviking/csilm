@@ -7,8 +7,14 @@ html
     title= title
     link(rel='stylesheet', href='/css/style.css')
   body
+    .navbar.navbar-inverse
+      .navbar-inner
+        a.brand(href='http://cslim.tivciking.com') Gameful ILM
+        ul.nav
+          li
+            a(href='') Home
     .container-fluid
       .row
-        .span2
         .span10
           block content
+        .span2
