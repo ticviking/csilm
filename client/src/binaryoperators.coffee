@@ -13,10 +13,10 @@ operators =
     str:"AND"
   or: 
     op:(a, b) -> a || b
-    str:"and"
-  #TODO: Implement a not
-  #not: (a) -> !a
-
+    str:"OR"
+  not: 
+    op:(a) -> !a
+    str:"NOT"
 ###
 BoolExp
 
@@ -27,7 +27,7 @@ A boolean expression, nested at most complexity deep
 and so on
 ###
 class BoolExp
-  constructor: (depth=1, ops = [operators.and, operators.or] )->
+  constructor: (depth=1, ops = ['and', 'or', 'not'] )->
     ###
     The Expression is stored as a binary tree in an array where the following 
     are true:
@@ -48,14 +48,11 @@ class BoolExp
     ###
     Fill in the nodes with random values
     ###
-    ###
-    for i in [1 .. @rightLeaf]
-      if Math.random < .6
-        #Just over half the time inset an operator
-        @expr[i] = ops[Math.floor( Math.random * ops.len )]
-      else
-        #The rest of the time use a constant boolean value
-        @expr[i] = Math.random < .5
-    ###
+    for i in [1 .. @rightLeaf-1]
+        @expr[i] = ops[Math.floor( Math.random() * ops.length )]
+
+  toString: ->
+    return "A BoolExp"
+
 
 exports.BoolExp = BoolExp
