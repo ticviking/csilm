@@ -10,13 +10,13 @@ These binary operators are used to construct and evaluate problems
 operators = 
   and: 
     op:(a, b) -> a && b
-    str:"AND"
+    str:"&&"
   or: 
     op:(a, b) -> a || b
-    str:"OR"
+    str:"||"
   not: 
     op:(a) -> !a
-    str:"NOT"
+    str:"!"
 ###
 BoolExp
 
@@ -50,9 +50,23 @@ class BoolExp
     ###
     for i in [1 .. @rightLeaf-1]
         @expr[i] = ops[Math.floor( Math.random() * ops.length )]
+  nodeString: (n) ->
+    ###
+      Do an inorder traversal with some string interplation to get a string
+      representation of a subtree.
+    ###
+    left = n*2+1
+    right = n*2
+    if n > @leftLeaf 
+      ""
+    else if  typeof @expr[n] == 'boolean'
+      @expr[n].toString()
+    else if @expr[n] == 'not'
+      "( #{operators[@expr[n]].str} #{@nodeString(left)} )"
+    else
+      "( #{@nodeString(left)} #{operators[@expr[n]].str} #{@nodeString(right)} )"
 
   toString: ->
-    return "A BoolExp"
-
+    @nodeString(1) #get the nodeString from root
 
 exports.BoolExp = BoolExp
