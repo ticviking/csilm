@@ -9,24 +9,25 @@ These binary operators are used to construct and evaluate problems
 ###
 operators = 
   and: 
-    op:(a, b) -> a && b
+    op:(left, right) -> left && right
     str:"&&"
   or: 
-    op:(a, b) -> a || b
+    op:(left, right) -> left || right
     str:"||"
   not: 
-    op:(a) -> !a
+    op:(left) -> !left
     str:"!"
-###
-BoolExp
 
-
-A boolean expression, nested at most complexity deep
-  BoolExp(1) -> true && false
-  BoolExp(2) -> (false || true) && true
-and so on
-###
 class BoolExp
+  ###
+  Create a new BoolExp
+  @Param depth - The depth of the binary tree to generate
+  @Param ops - which operations should the tree use
+  So the following might give:
+    BoolExp(1) -> true && false
+    BoolExp(2) -> (false || true) && true
+  and so on
+  ###
   constructor: (depth=1, ops = ['and', 'or', 'not'] )->
     ###
     The Expression is stored as a binary tree in an array where the following 
@@ -50,23 +51,37 @@ class BoolExp
     ###
     for i in [1 .. @rightLeaf-1]
         @expr[i] = ops[Math.floor( Math.random() * ops.length )]
+    ###
+    Evaluate and stick in 0 to save time
+    ###
+    @expr[0] = @evaluate(1)
   nodeString: (n) ->
     ###
       Do an inorder traversal with some string interplation to get a string
       representation of a subtree.
     ###
-    left = n*2+1
-    right = n*2
-    if n > @leftLeaf 
-      ""
+    if n > @leftLeaf then "" #Sanity check
     else if  typeof @expr[n] == 'boolean'
-      @expr[n].toString()
+      if @expr[n] then "T" else "F"
     else if @expr[n] == 'not'
-      "( #{operators[@expr[n]].str} #{@nodeString(left)} )"
+      "( #{operators[@expr[n]].str} #{@nodeString(@left n)} )"
     else
-      "( #{@nodeString(left)} #{operators[@expr[n]].str} #{@nodeString(right)} )"
-
+      "( #{@nodeString( @left n )} #{operators[@expr[n]].str} #{ @nodeString( @right n ) } )"
+  ###
+  Evaluate the expression starting from 
+  @param n index of the node to begin evaluating on
+  ###
+  evaluate: (n) ->
+    if n > @leftLeaf then undefined
+    else if typeof @expr[n] == 'boolean' then @expr[n]
+    else 
+      {op} = operators[ @expr[n] ]
+      op(@evaluate(@left n), @evaluate( @right n) )
+  value: -> @expr[0]
+  left: (n) -> n*2 + 1
+  right: (n) -> n*2
   toString: ->
     @nodeString(1) #get the nodeString from root
+
 
 exports.BoolExp = BoolExp
