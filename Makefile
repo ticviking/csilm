@@ -4,7 +4,8 @@ VPATH = .:routes
 .SUFFIXES: 
 .SUFFIXES: .coffee .js 
 
-run: app.js routes less
+
+run: app.js routes less client
 	npm start
 
 *.js: *.coffee
@@ -12,6 +13,10 @@ run: app.js routes less
 
 routes: routes/*.coffee
 	coffee -c $?
+
+.PHONY: client
+client:
+	coffee -c -o client/lib/ client/src
 
 less: ./public/less/*.less ./public/less/bootstrap
 	./node_modules/.bin/lessc -x public/less/style.less public/css/style.css
