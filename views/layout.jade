@@ -12,9 +12,26 @@ html
         a.brand(href='http://cslim.tivciking.com') Gameful ILM
         ul.nav
           li
-            a(href='') Home
+            a(href=nav.home) Home
+          li.dropdown
+            a.dropdown-toggle(href="/ilm/", data-target="#") ILMs
+              b.caret
+            ul.dropdown-menu
+              for ilm in nav.ilms
+                li
+                  a(href=ilm.url)=ilm.name
+
     .container-fluid
       .row
         .span10
           block content
-        .span2
+        .span2.well#user-info
+          h4 username
+          hr
+          h6 Level Progress
+          .progress
+            .bar.bar-success(style="width:80%;")
+    script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js")
+    script(src='/javascripts/bootstrap.js')
+    script
+      $('.dropdown-toggle').dropdown();

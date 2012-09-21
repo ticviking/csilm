@@ -12,6 +12,7 @@
     "less":"*",
     "less-middleware": "*",
     "mocha":"*",
-    "supervisor":"*"
+    "supervisor":"*",
+    "browserify":"*"
   }
 }

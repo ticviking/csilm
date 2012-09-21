@@ -3,5 +3,11 @@
  GET home page.
 ###
 
-exports.index = (req, res) ->
-  res.render 'index', { title: 'TicViking' }
+module.exports = (app) ->
+  app.get '/', (req, res) ->
+    res.render 'index', { title: 'Gameful CSILM' }
+  app.get '/demo', (req, res) ->
+      res.render 'demo', {
+        title: 'Demo CSILM'
+      }
+
